@@ -89,7 +89,7 @@ A noter que dans un système linux, l'extension de fichier (ex: `.txt`, `.xls`, 
 
 ## 2. Premières commandes bash
 
-### `cd` — Change Directory
+### 2.1. `cd` — Change Directory
 But : se déplacer dans l’arborescence des dossiers.
 
 Exemples :
@@ -124,7 +124,7 @@ cd ~
 
 <br>
 
-### `pwd` — Print Working Directory
+### 2.2. `pwd` — Print Working Directory
 But : afficher le chemin complet du dossier dans lequel on se trouve actuellement.
 
 Exemple :
@@ -135,7 +135,7 @@ pwd
 
 <br>
 
-### `ls` — List
+### 2.3. `ls` — List
 But : lister le contenu du dossier courant (fichiers et sous-dossiers).
 
 Exemples :
@@ -167,7 +167,7 @@ ls /etc
 
 <br>
 
-### `touch` — Créer un fichier
+### 2.4. `touch` — Créer un fichier
 ```bash
 touch exemple.txt
 ```
@@ -175,9 +175,89 @@ touch exemple.txt
 
 <br>
 
+### 2.5. `mkdir` — Créer un dossier
+```bash
+mkdir dossier1
+```
+-> va créer un dossier `dossier1` à l'emplacement courant.
+
+<br>
+
+```bash
+mkdir dossier2 dossier3
+```
+-> va créer les dossiers `dossier2` et `dossier3` à l'emplacement courant.
+
+<br>
+
+```bash
+mkdir -p dossier4/sousdossier41/sousdossier411
+```
+-> va créer les dossiers nécessaires, même si les parents n’existent pas (-p = parents). Attention sans `-p` vous aurez une erreur.
+
+<br>
+
+### 2.6. `rm` — Remove
+Sert à supprimer des fichiers ou des dossiers. Attention : la suppression est définitive, les éléments ne passent pas par la corbeille.
+
+Syntaxe de base
+```bash
+rm [options] fichier_ou_dossier
+```
+
+<br>
+
+1. Supprimer un fichier simple
+```bash
+rm notes.txt
+```
+Supprime le fichier notes.txt du répertoire courant.
+
+<br>
+
+2. Supprimer plusieurs fichiers
+```bash
+rm *.log
+```
+Supprime tous les fichiers .log du dossier courant.
+
+<br>
+
+3. Supprimer un dossier et son contenu
+```bash
+rm -r dossier/
+```
+Supprime le dossier dossier et tout ce qu’il contient (-r = récursif).
+
+<br>
+
+4. Supprimer sans confirmation
+```bash
+rm -f fichier.txt
+```
+Supprime fichier.txt sans demander de confirmation (-f = force).
+
+<br>
+
+5. Supprimer un dossier sans confirmation
+```bash
+rm -rf dossier/
+```
+Supprime le dossier et son contenu sans aucune demande de validation. À utiliser avec précaution.
+
+<br>
+
 ### Exercice rapide
 Combiner ces commandes pour :
- - Se déplacer dans un dossier
- - Créer un fichier (touch fichier.txt)
- - Vérifier sa présence avec ls
+ - Recréer l'arborescence suivante en créant dossiers et fichiers:
+ - ```
+   |— dossier1
+   |— — sousdossier1
+   |— — — fichier1
+   |— — — fichier2
+   |— — sousdossier2
+   ```
+ - Se déplacer dans un `sousdossier1`
+ - Lister le contenu
  - Afficher le chemin avec pwd
+ - Supprimer `dossier1` et son contenu
