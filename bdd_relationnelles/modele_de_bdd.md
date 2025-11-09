@@ -158,16 +158,16 @@ Le modèle Entité‑Relation (ER) est la représentation graphique la plus cour
 ## Exemple didactique (School — Student)
 
 ### Schéma ER simple :
-`
+```
    [School]─────(study)─────[Student]
    | id                     | id
    | name                   | name
    | location               | surname
-`
+```
 Ce que cela signifie : l’entité School a des attributs id, name, location ; l’entité Student a id, name, surname ; la relation study relie Student à School.
 
 Relation implémentée en base relationnelle (clé étrangère) :
-`
+```
 Table: School
 +----+------+----------+
 | id | name | location |
@@ -177,7 +177,7 @@ Table: Student
 +----+------+---------+-----------+
 | id | name | surname | school_id |
 +----+------+---------+-----------+
-`
+```
 La colonne school_id dans Student est la clé étrangère qui capture la relation study entre Student et School.
 
 ---
@@ -188,7 +188,7 @@ La colonne school_id dans Student est la clé étrangère qui capture la relatio
    Chaque entité devient un petit tableau à colonne unique — l’en‑tête est le nom de l’entité et chaque ligne liste un attribut.
 
    Exemple :
-   `
+   ```
    ┌─────────┐      ┌────────────┐
    │ School  │      │  Student   │
    │ id      │      │ id         │
@@ -196,7 +196,7 @@ La colonne school_id dans Student est la clé étrangère qui capture la relatio
    │ location│      │ surname    │
    └─────────┘      │ school_id  │
                     └────────────┘
-   `
+   ```
 
 ---
 
