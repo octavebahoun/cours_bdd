@@ -50,7 +50,44 @@
       background-color: var(--base-bg) !important;
       color: var(--base-text) !important;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 18px !important;
+      /* Augmentation de la taille de police de base */
+      line-height: 1.6;
       transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Ajustements Mobile Spécifiques */
+    @media screen and (max-width: 768px) {
+      body {
+        font-size: 19px !important;
+        /* Encore plus gros sur mobile */
+      }
+
+      .markdown-section {
+        padding: 2rem 15px !important;
+        /* Plus d'espace sur les bords */
+        max-width: 100% !important;
+        /* Utiliser toute la largeur disponible */
+      }
+
+      /* Rendre les titres plus lisibles sur petit écran */
+      .markdown-section h1 {
+        font-size: 2.2rem !important;
+      }
+
+      .markdown-section h2 {
+        font-size: 1.8rem !important;
+      }
+
+      .markdown-section h3 {
+        font-size: 1.5rem !important;
+      }
+
+      /* Zones de code scrollables confortablement */
+      .markdown-section pre {
+        font-size: 16px !important;
+        padding: 15px !important;
+      }
     }
 
     /* Sidebar propre */
