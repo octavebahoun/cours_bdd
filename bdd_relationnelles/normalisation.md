@@ -1,124 +1,134 @@
 # Normalisation et Formes Normales
 
-## Présentation rapide
-La normalisation est un ensemble de règles visant à structurer une base de données relationnelle pour réduire la redondance, éviter les anomalies de modification et faciliter les opérations CRUD (Create, Read, Update, Delete).
+> 📍 **Où on est** : Bases de Données Relationnelles → Normalisation
+
+## 🎯 Objectifs
+- Comprendre pourquoi "nettoyer" sa base de données est vital.
+- Savoir appliquer les règles **1NF**, **2NF** et **3NF**.
+- Éviter les doublons et les erreurs de mise à jour.
+
+## 📘 Notions clés
+- **Normalisation** : Processus pour organiser les données sans redondance.
+- **Formes Normales (FN)** : Niveaux de "propreté" (1NF, 2NF, 3NF...).
+- **Clé Primaire** : Identifiant unique d'une ligne.
+- **Dépendance Fonctionnelle** : Quand une info dépend d'une autre (ex: le prix dépend du produit).
 
 ---
 
-## Pourquoi normaliser
-La normalisation améliore la qualité du modèle de données : elle rationalise le stockage, réduit les incohérences et facilite la maintenance. En pratique on normalise souvent jusqu'à la troisième forme normale pour trouver un bon compromis entre propreté du modèle et performances (trop de normalisation peut multiplier les jointures et impacter les performances).
+## 1. Pourquoi normaliser ?
+
+C'est comme ranger sa chambre : on veut éviter le désordre.
+
+> ℹ️ **Info**
+> Le but est de réduire la **redondance** (doublons) et d'éviter les **anomalies** lors de l'ajout, la modification ou la suppression de données.
+
+En pratique, on vise la **3NF** (Troisième Forme Normale). C'est le bon compromis entre structure propre et performance.
 
 ---
 
-### Rappel : formes normales et vocabulaire
-- Formes courantes : Première Forme Normale (1NF), Deuxième Forme Normale (2NF), Troisième Forme Normale (3NF) ; au-delà existent BCNF, 4NF, 5NF, etc..  
-- Clé primaire : ensemble minimal d'attributs identifiant une ligne.  
-- Clé composite : clé primaire composée de plusieurs colonnes.  
-- Dépendance fonctionnelle : notion centrale pour déterminer si un attribut dépend d'une clé ou d'une partie de clé.
+## 2. Première Forme Normale (1NF) : Atomicité
+
+Pour être en 1NF, une table doit respecter deux règles simples :
+
+1. Une **clé primaire** unique (ex: ID).
+2. Des valeurs **atomiques** (une seule info par case, pas de liste).
+
+### 🧪 Exemple 1NF
+
+🔴 **Problème** (Non normalisé) :
+```Code
+Client(id, nom, commandes)
+1 | Alice | iPod, iPad
+```
+Ici, la colonne `commandes` contient une liste "iPod, iPad". C'est interdit.
+
+🟢 **Solution** (1NF) :
+On sépare les commandes.
+```Code
+Client(id, nom)
+Commande(id_commande, id_client, produit)
+```
+Chaque commande a sa propre ligne.
+
+> ✅ **Astuce**
+> Si tu utilises des virgules dans une case Excel, tu n'es probablement pas en 1NF !
 
 ---
 
-### Définition générale de la normalisation
-- Définition synthétique : c’est le processus d’adaptation de la structure d’une base de données à des formes normales, c’est‑à‑dire l’application de règles pour obtenir un modèle cohérent et peu redondant.  
-- Remarque : la dénormalisation est le choix volontaire d’éloigner le modèle des formes normales pour des raisons de performance ou de simplicité de lecture des requêtes, à utiliser avec précaution.
+## 3. Deuxième Forme Normale (2NF) : Dépendance Totale
+
+Pour être en 2NF, il faut :
+*   Être déjà en **1NF**.
+*   Si la clé primaire est composée de plusieurs colonnes (clé composite), chaque attribut doit dépendre de **toute** la clé, pas juste d'un morceau.
+
+### 🧪 Exemple 2NF
+
+Imagine une table de commandes : `Commande(id_commande, id_client, produit, nom_client)`.
+
+🔴 **Problème** :
+`nom_client` dépend seulement de `id_client`, pas de `id_commande`. Si on change le nom du client, il faut le faire partout !
+
+🟢 **Solution** (2NF) :
+On sort les infos du client.
+```Code
+Client(id_client, nom_client)
+Commande(id_commande, id_client, produit)
+```
+Maintenant, `nom_client` est stocké une seule fois.
+
+> ⚠️ **Attention**
+> Si ta table a une clé primaire simple (une seule colonne), elle est automatiquement en 2NF si elle est en 1NF.
 
 ---
 
-## Première Forme Normale (1NF) — règles et exemple
-- Règles essentielles :
-  - Chaque table doit posséder une clé primaire unique (par ex. CustomerID).  
-  - Chaque attribut doit contenir une valeur atomique (pas de listes ou valeurs multiples dans une même cellule).  
-- Exemple :
-    Exemple non normalisé :
-    
-    ```Code
-    Client(id, nom, commandes)
-    ```
-     Ici, client peut contenir une liste de commandes (ex: "cmd1, cmd3, cmd4").
-    
-    Correction en 1NF :
-    
-    ```Code
-    Client(id, nom)
-    Commande(id_commande, id_client, date)
-    ```
-    -> Chaque commande est stocké dans une ligne distincte.
-  
-- Bénéfice : facilite le tri, la recherche et les jointures ; évite les opérations coûteuses d’extraction et de parsing des valeurs multi‑contenues.
+## 4. Troisième Forme Normale (3NF) : Pas de dépendance transitive
+
+Pour être en 3NF, il faut :
+*   Être déjà en **2NF**.
+*   Les colonnes ne doivent pas dépendre les unes des autres (sauf de la clé primaire).
+
+### 🧪 Exemple 3NF
+
+`Employe(id, nom, id_departement, nom_departement, chef_departement)`
+
+🔴 **Problème** :
+`nom_departement` dépend de `id_departement`. Si `id_departement` change, le nom doit changer. Mais `id_departement` n'est pas la clé primaire de la table Employé ! C'est une dépendance transitive :
+`Employé -> id_departement -> nom_departement`.
+
+🟢 **Solution** (3NF) :
+On sépare les départements.
+```Code
+Employe(id, nom, id_departement)
+Departement(id_dept, nom_dept, chef_dept)
+```
 
 ---
 
-## Deuxième Forme Normale (2NF) — règles et approche
-- Conditions :
-  - La table doit être en 1NF ;  
-  - Tous les attributs non‑clé doivent dépendre entièrement de la clé primaire (pas de dépendances partielles sur une composante d’une clé composite).  
-- Quand l'appliquer : utile surtout si la table utilise une clé primaire composite (ex. EmployeeID + DepartmentID) ; si certains attributs n’utilisent qu’une partie de la clé composite, il faut extraire ces attributs dans une table séparée pour éviter les anomalies de suppression et garantir l’intégrité des informations (ex. informations sur le département ne dépendant que de DepartmentID).
-- Exemple:
-    Exemple en 1NF mais pas en 2NF :
+## 📝 À retenir
 
-    ```Code
-    Commande(id_commande, id_client, produit, nom_client)
-    ```
-    Ici, nom_client dépend seulement de id_client, pas de la clé complète id_commande.
-    
-    Correction en 2NF :
-    
-    ```Code
-    Client(id_client, nom_client)
-    Commande(id_commande, id_client, produit)
-    ```
-    -> On sépare les informations du client dans une table dédiée.
-- Remarque : une table qui n’a pas de clé composite et qui respecte la 1NF satisfait automatiquement à la 2NF.
+| Forme Normale | Règle Clé | Résumé |
+| :--- | :--- | :--- |
+| **1NF** |  **Atomicité** | 1 case = 1 valeur. Pas de listes. |
+| **2NF** | **Toute la clé** | Les infos dépendent de TOUTE la clé primaire composite. |
+| **3NF** | **Rien que la clé** | Les colonnes ne dépendent pas d'autres colonnes non-clés. |
+
+> "La clé, toute la clé, rien que la clé." (Bill Kent)
 
 ---
 
-## Troisième Forme Normale (3NF) — règles et mise en pratique
-- Conditions :
-    - la table doit être en 2NF
-    - aucun attribut non-clé ne doit dépendre d'un autre attribut non-clé (on évite les dépendances transitoires).  
-- Conséquence pratique : si un attribut A dépend de B et B dépend de la clé primaire, déplacer A (et B si nécessaire) dans une table distincte liée par clé étrangère.  
-- Exemple :
-    - 2NF mais pas en 3NF
-    ```Code
-    Employe(id_employe, nom, id_departement, nom_departement, directeur_departement)
-    ```
-    Problème :
-    - `nom_departement` et `directeur_departement` dépendent de `id_departement`, qui est lui-même un attribut non-clé.
-    - Donc, il existe une dépendance transitive : `id_employe → id_departement → nom_departement, directeur_departement`.
-    
-    Correction en 3NF  
-    On sépare les informations du département dans une table dédiée :
-    
-    ```Code
-    Employe(id_employe, nom, id_departement)
-    Departement(id_departement, nom_departement, directeur_departement)
-    ```
-    Résultat :
-    
-    Les attributs du département ne dépendent plus de l’employé, mais uniquement de la clé primaire de la table `Departement`.
-    On évite les anomalies de mise à jour (ex. changer le nom du département dans une seule table au lieu de toutes les lignes des employés).
+## ❓ Exercices
 
----
+Modélise les données suivantes pour qu'elles soient en **3NF**.
 
-## Processus recommandé pour normaliser jusqu’à 3NF
-1. Vérifier la 1NF : créer des clés primaires et s’assurer que chaque attribut est atomique.  
-2. Identifier les clés composites et vérifier la 2NF : déplacer les attributs dépendant d’une partie de la clé vers de nouvelles tables.  
-3. Traiter les dépendances transitoires pour atteindre la 3NF : extraire les attributs qui dépendent d’autres attributs non‑clé dans des tables dédiées.  
-4. Après conception, tester les cas d’usage courants (insertions, suppressions, mises à jour) pour vérifier qu’aucune anomalie ne survient et mesurer l’impact des jointures sur les performances.
+**Données brutes :**
+Une facture contient : `NumFacture`, `Date`, `NomClient`, `VilleClient`, `Produit`, `PrixUnitaire`, `Quantité`.
 
----
+<details>
+<summary>👀 Voir la solution</summary>
 
-## Avantages, limites et bonnes pratiques
-- Avantages : réduction de la redondance, cohérence améliorée, maintenance facilitée, conception claire (entités distinctes).  
-- Limites : multiplication des tables et des jointures peut ralentir certaines requêtes ; équilibre à trouver entre normalisation et pragmatisme (parfois dénormaliser pour la lecture/performance).  
-- Bonnes pratiques : normaliser au moins jusqu’à la 3NF pour la plupart des cas ; documenter les choix de dénormalisation et tester les scénarios d’échelle/performances en environnement représentatif.
+1. **Client**(`id_client`, nom, ville)  *(Ville dépend du client)*
+2. **Produit**(`id_produit`, nom, prix_unitaire) *(Prix dépend du produit)*
+3. **Facture**(`num_facture`, date, id_client)
+4. **LigneFacture**(`num_facture`, `id_produit`, quantite) *(Quantité dépend de la combinaison facture+produit)*
 
----
-
-## Résumé concis
-- 1NF : atomicité des attributs et clé primaire unique.  
-- 2NF : pas de dépendance partielle sur une clé composite.  
-- 3NF : pas de dépendance transitive entre attributs non‑clé.  
-- Normaliser améliore la qualité du modèle ; dénormaliser peut être légitime pour des raisons de performance, à condition d’en mesurer les conséquences.
-
---- 
+</details>
