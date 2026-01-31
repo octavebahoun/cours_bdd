@@ -84,11 +84,11 @@ Volume : espace de stockage persistant permettant de conserver et partager des d
 
 ## Schéma de création d'un conteneur de zéro
 
-![Buildrun](image/docker_build_run.png ":size=800")
+![Buildrun](docker_virtualisation/image/docker_build_run.png ":size=800")
 
 ## Schéma d'illustration d'utilisation d'un volume
 
-![Volume](image/docker_volume.webp ":size=800")
+![Volume](docker_virtualisation/image/docker_volume.webp ":size=800")
 
 ## À retenir
 

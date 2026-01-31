@@ -74,7 +74,7 @@ docker ps
 #### 4. Acceder à l'interface de pgadmin
 
 Dans l’interface GitHub Codespaces, ouvre le menu Ports (souvent en bas ou dans la barre latérale).  
-![Ports](image/codespace_ports.png ":size=800")
+![Ports](docker_virtualisation/image/codespace_ports.png ":size=800")
 
 Tu verras la liste des ports exposés par tes containers (ici 8081).
 
@@ -87,7 +87,7 @@ https://<ton-codespace>-8080.preview.app.github.dev
 
 #### Onglet Connection dans pg admin
 
-![Pg_server](image/pg_server.png ":size=800")
+![Pg_server](docker_virtualisation/image/pg_server.png ":size=800")
 
 Host name/address : `postgres` -> C’est le nom du service défini dans ton `docker-compose.yml`.  
 Comme pgAdmin et Postgres partagent le même réseau Docker, tu n’utilises pas `localhost` mais le nom du service.

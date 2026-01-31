@@ -316,7 +316,7 @@ Exemple :
 - Identifier d’abord les entités principales et leurs attributs obligatoires.
 - Définir les relations et leur cardinalité (1‑1, 1‑n, n‑n) puis décider d’implémentation (clé étrangère ou table d’association).
 
-![Relations](images/types_relations.png ":size=400")
+![Relations](bdd_relationnelles/images/types_relations.png ":size=400")
 
 - Pour éviter l’encombrement visuel, utiliser la représentation tabulaire quand une entité a beaucoup d’attributs.
 
