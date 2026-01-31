@@ -26,13 +26,12 @@
     @media (prefers-color-scheme: dark) {
       :root {
         --base-bg: #1a1b1e;
-        /* Gris sombre mat (pas noir complet) */
         --base-text: #e0e0e0;
         --sidebar-bg: #202225;
         --sidebar-border: #2e3033;
-        --code-bg: #2b2d31;
+        --code-bg: #111111;
+        /* Noir profond pour les blocs */
         --accent: #50caa0;
-        /* Vert un peu plus lumineux */
       }
 
       /* Overrides spécifiques Docsify Dark */
@@ -42,6 +41,52 @@
 
       .anchor span {
         color: var(--base-text) !important;
+      }
+
+      /* 👨‍💻 Code : Blanc sur Noir + Couleurs Vives */
+      .markdown-section pre,
+      .markdown-section code {
+        background-color: #000000 !important;
+        /* Vrai noir */
+        color: #f8f8f2 !important;
+        /* Texte de base blanc */
+      }
+
+      /* Rendre la syntaxe lisible sur fond noir (Thème Dracula-like) */
+      .token.comment {
+        color: #999999 !important;
+      }
+
+      .token.keyword {
+        color: #ff79c6 !important;
+      }
+
+      /* Rose */
+      .token.string {
+        color: #f1fa8c !important;
+      }
+
+      /* Jaune */
+      .token.number {
+        color: #bd93f9 !important;
+      }
+
+      /* Violet */
+      .token.function {
+        color: #8be9fd !important;
+      }
+
+      /* Cyan */
+      .token.operator {
+        color: #ff79c6 !important;
+      }
+
+      .token.punctuation {
+        color: #f8f8f2 !important;
+      }
+
+      .token.class-name {
+        color: #8be9fd !important;
       }
     }
 
@@ -144,6 +189,7 @@
       repo: 'https://github.com/octavebahoun/cours_bdd',
       loadSidebar: true,
       subMaxLevel: 3, // Profondeur des titres dans la sidebar
+      relativePath: true, // ✅ Active les liens relatifs pour les images dans les sous-dossiers
       search: 'auto', // Barre de recherche
       pagination: {   // Navigation Précédent / Suivant
         previousText: '⬅️ Précédent',
